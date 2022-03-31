@@ -4788,8 +4788,6 @@ let cityAndStates = [
 ];
 let serviceString = ''
 let cityAndStateString = ''
-let stateString = ''
-let cityString = ''
 
 let count = 0;
 for (const data of cityAndStates) {
