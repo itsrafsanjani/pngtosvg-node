@@ -1114,14 +1114,21 @@ let cityAndStates = [
     {
         "City": "Los Angeles",
         "State": "CA"
+    },
+    {
+        "City": "District of Columbia",
+        "State": "DC"
     }
 ];
 let serviceString = ''
+let stateString = ''
 
 for (const data of cityAndStates) {
     let filename = ''
+    let city = data.City
+    let state = data.State
     if (service2.replace(/\s/g,"") === "") {
-        filename = service1.replace(/\s+/g, '-') + '-' + data.City.replace(/\s+/g, '-') + '-' + data.State.replace(/\s+/g, '-') + '.png';
+        filename = service1.replace(/\s+/g, '-') + '-' + city.replace(/\s+/g, '-') + '-' + state.replace(/\s+/g, '-') + '.png';
         serviceString = `<tspan
             sodipodi:role="line"
             id="tspan9735"
@@ -1129,7 +1136,7 @@ for (const data of cityAndStates) {
             style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI Heavy';text-align:center;text-anchor:middle;fill:#1f2641;fill-opacity:1;stroke-width:0.863114">${service1}</tspan>`
     }
     else {
-        filename = service1.replace(/\s+/g, '-')  + '-' + service2.replace(/\s+/g, '-') + '-' + data.City.replace(/\s+/g, '-') + '-' + data.State.replace(/\s+/g, '-') + '.png';
+        filename = service1.replace(/\s+/g, '-')  + '-' + service2.replace(/\s+/g, '-') + '-' + city.replace(/\s+/g, '-') + '-' + state.replace(/\s+/g, '-') + '.png';
         serviceString = `<tspan
             sodipodi:role="line"
             y="135.91339"
@@ -1144,9 +1151,65 @@ for (const data of cityAndStates) {
             style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI Heavy';text-align:center;text-anchor:middle;fill:#1f2641;fill-opacity:1;stroke-width:0.863114">${service2}</tspan>`
     }
 
+    if (state.length >= 20) {
+        stateString = `District of <tspan
+            sodipodi:role="line"
+            x="182.83865"
+            y="265.06151"
+            style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI Heavy';text-align:center;text-anchor:middle;fill:#1f2641;fill-opacity:1;stroke-width:0.583805"
+            id="columbia">Columbia</tspan>`
+    } else {
+        stateString = state
+    }
+
+    if (city.length > 14 && city.length < 18) {
+        console.log('larger than 14')
+        document.getElementById('tspan9741-2').style.fontSize="1.3rem"
+        document.getElementById('tspan250').style.fontSize="1.3rem"
+        let columbia = document.getElementById('columbia')
+        if(columbia) {
+            columbia.style.fontSize="1.3rem"
+            console.log('columbia style added')
+        }
+        updateText("tspan9741-2", city + ',');
+    }
+    else if (city.length > 17 && city.length < 22) {
+        console.log('larger than 14')
+        document.getElementById('tspan9741-2').style.fontSize="1.15rem"
+        document.getElementById('tspan250').style.fontSize="1.15rem"
+        let columbia = document.getElementById('columbia')
+        if(columbia) {
+            columbia.style.fontSize="1.15rem"
+            console.log('columbia style added')
+        }
+        updateText("tspan9741-2", city + ',');
+    }
+    else if (city.length > 21) {
+        console.log('larger than 14')
+        document.getElementById('tspan9741-2').style.fontSize="1rem"
+        document.getElementById('tspan250').style.fontSize="1rem"
+        let columbia = document.getElementById('columbia')
+        if(columbia) {
+            columbia.style.fontSize="1rem"
+            console.log('columbia style added')
+        }
+        updateText("tspan9741-2", city + ',');
+    }
+    else {
+        console.log('lower than 14')
+        updateText("tspan9741-2", city + ',');
+        document.getElementById('tspan9741-2').style.removeProperty('font-size')
+        document.getElementById('tspan250').style.removeProperty('font-size')
+        let columbia = document.getElementById('columbia')
+        if(columbia) {
+            columbia.style.removeProperty('font-size')
+            console.log('columbia style removed')
+        }
+    }
+
     let newSvgString = svgString.replace("###Service###", serviceString)
-        .replace("###City###", data.City)
-        .replace("###State###", data.State).trim()
+        .replace("###City###", city)
+        .replace("###State###", state).trim()
 
     console.log(newSvgString + '\n')
 
